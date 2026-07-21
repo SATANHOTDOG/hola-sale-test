@@ -48,7 +48,7 @@
             font-weight: bold; 
             letter-spacing: 1px;
         }
-        /* 極簡風格的真實瀏覽量面板 */
+        /* 冷酷無情的真實計數器面板 */
         .real-counter {
             background: rgba(0, 0, 0, 0.3);
             color: #ecf0f1;
@@ -101,10 +101,10 @@
             若條碼無法掃描，請手動輸入 LINE ID：satanhotdog
         </div>
         
-        <!-- 冷酷無情的真實計數器 -->
+        <!-- 冷酷無情的真實計數器 (工業級防線版) -->
         <div class="real-counter">
             本清單累積調閱人次：<br>
-            <img src="https://profile-counter.glitch.me/satanhotdog_hola_sale/count.svg" style="height: 20px; margin-top: 5px; vertical-align: middle;">
+            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=satanhotdog.github.io/hola&count_bg=%23e74c3c&title_bg=%231a252f&title=VIEWS&edge_flat=true" style="height: 24px; margin-top: 5px; vertical-align: middle;" alt="調閱計數器">
         </div>
 
         <div class="warning-box">
@@ -125,6 +125,7 @@
 
         const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXSo3_nA_Jx9DvmO7M1pn0kvt-FrrTEyqx8ao3N628WzcKf0dT-YT91sWTuNBg51YZNIyTDREfvt7Y/pub?output=csv';
 
+        // 終極暴力網址解析器 + 快取破壞神
         function fixGoogleDriveUrl(url) {
             if (!url) return '';
             const match = url.match(/[-\w]{25,}/);
