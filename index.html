@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOLA 大墩店 蔡KOBE 專屬出清網</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            background-color: #1a252f;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .header h1 { margin: 0 0 10px 0; font-size: 26px; }
+        .warning-box {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin: 15px 0;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .qr-code {
+            width: 160px;
+            height: 160px;
+            background-color: #fff;
+            margin: 10px auto;
+            display: block;
+            border: 4px solid #fff;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        .line-id-text {
+            font-size: 16px; 
+            color: #f1c40f; 
+            margin-top: 10px; 
+            font-weight: bold; 
+            letter-spacing: 1px;
+        }
+        /* 極簡風格的真實瀏覽量面板 */
+        .real-counter {
+            background: rgba(0, 0, 0, 0.3);
+            color: #ecf0f1;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+        .product-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 6px solid #f39c12;
+        }
+        .product-title { font-size: 22px; font-weight: bold; color: #2c3e50; }
+        .product-id { color: #7f8c8d; font-size: 14px; margin-bottom: 10px; }
+        .price-zone {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .original-price { text-decoration: line-through; color: #95a5a6; font-size: 16px; margin-right: 15px; }
+        .sale-price { color: #e74c3c; font-size: 24px; font-weight: bold; }
+        .product-image { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .product-image a { width: calc(20% - 10px); min-width: 120px; }
+        .product-image img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            transition: transform 0.2s;
+        }
+        .product-image img:hover { transform: scale(1.05); }
+        .product-desc { margin-top: 15px; line-height: 1.6; color: #444; padding: 15px; background: #f9f9f9; border-radius: 5px; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>HOLA 大墩店 家具銷售專員 蔡KOBE</h1>
+        <!-- 雙重保險：縮圖API + 無推薦人防護 + 時間戳記 -->
+        <img id="line-qr" src="" alt="加我LINE" class="qr-code" referrerpolicy="no-referrer">
+        <div class="line-id-text">
+            若條碼無法掃描，請手動輸入 LINE ID：satanhotdog
+        </div>
+        
+        <!-- 冷酷無情的真實計數器 -->
+        <div class="real-counter">
+            本清單累積調閱人次：<br>
+            <img src="https://profile-counter.glitch.me/satanhotdog_hola_sale/count.svg" style="height: 20px; margin-top: 5px; vertical-align: middle;">
+        </div>
+
+        <div class="warning-box">
+            ⚠️ 專員重要提醒：<br>
+            此為 HOLA 大墩店 家具銷售專員 蔡KOBE 個人為您整理之限量出清商品網。<br>
+            出清品項數量極為有限，由於門市現場同步展售，商品可能隨時絕版。<br>
+            <strong>為保障您的購買權益，看中商品請務必先加 LINE 聯繫，為您確認庫存與保留！</strong>
+        </div>
+    </div>
+
+    <div id="product-container">
+        <h3 style="text-align: center; color: #666;">正在為您調閱專屬出清清單，請稍候...</h3>
+    </div>
+
+    <script>
+        // 賦予 LINE 條碼抗快取能力
+        document.getElementById('line-qr').src = `https://drive.google.com/thumbnail?id=1TiN0ymrbT3brnIXH_vghYGFYoCeO37T5&sz=w500&dummy=${new Date().getTime()}`;
+
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTXSo3_nA_Jx9DvmO7M1pn0kvt-FrrTEyqx8ao3N628WzcKf0dT-YT91sWTuNBg51YZNIyTDREfvt7Y/pub?output=csv';
+
+        function fixGoogleDriveUrl(url) {
+            if (!url) return '';
+            const match = url.match(/[-\w]{25,}/);
+            if (match && match[0]) {
+                const now = new Date().getTime(); 
+                return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w1000&dummy=${now}`;
+            }
+            return url;
+        }
+
+        function parseCSV(str) {
+            const arr = [];
+            let quote = false;
+            let row = 0, col = 0;
+            for (let c = 0; c < str.length; c++) {
+                let cc = str[c], nc = str[c+1];
+                arr[row] = arr[row] || [];
+                arr[row][col] = arr[row][col] || '';
+                
+                if (cc === '"' && quote && nc === '"') { arr[row][col] += cc; ++c; continue; }
+                if (cc === '"') { quote = !quote; continue; }
+                if (cc === ',' && !quote) { ++col; continue; }
+                if (cc === '\r' && nc === '\n' && !quote) { ++row; col = 0; ++c; continue; }
+                if (cc === '\n' && !quote) { ++row; col = 0; continue; }
+                if (cc === '\r' && !quote) { ++row; col = 0; continue; }
+                arr[row][col] += cc;
+            }
+            return arr;
+        }
+
+        fetch(sheetUrl)
+            .then(response => response.text())
+            .then(csvText => {
+                const container = document.getElementById('product-container');
+                container.innerHTML = ''; 
+
+                const rows = parseCSV(csvText);
+                
+                for (let i = 1; i < rows.length; i++) {
+                    const cols = rows[i];
+                    if (!cols || cols.length < 2 || !cols[0].trim()) continue; 
+                    
+                    const id = cols[0];
+                    const name = cols[1];
+                    const originalPrice = cols[2] || '';
+                    const salePrice = cols[3] || '';
+                    const desc = (cols[4] || '').replace(/\n/g, '<br>');
+                    
+                    const imgUrls = [cols[5], cols[6], cols[7], cols[8], cols[9]]
+                                    .map(url => url ? url.trim() : '')
+                                    .filter(url => url !== '');
+
+                    let imagesHtml = '';
+                    imgUrls.forEach(url => {
+                        const fixedUrl = fixGoogleDriveUrl(url);
+                        imagesHtml += `
+                            <a href="${fixedUrl}" target="_blank" title="點擊放大檢視商品細節">
+                                <img src="${fixedUrl}" alt="${name}" referrerpolicy="no-referrer">
+                            </a>
+                        `;
+                    });
+
+                    if (imagesHtml === '') {
+                        imagesHtml = '<span style="color:#999; font-style:italic;">商品實拍圖片整理中，歡迎直接傳送 LINE 訊息索取。</span>';
+                    }
+
+                    const productHtml = `
+                        <div class="product-card">
+                            <div class="product-title">${name}</div>
+                            <div class="product-id">商品貨號：${id}</div>
+                            <div class="price-zone">
+                                <span class="original-price">原價：$${originalPrice}</span>
+                                <span class="sale-price">出清價：$${salePrice}</span>
+                            </div>
+                            <div class="product-image">
+                                ${imagesHtml}
+                            </div>
+                            <div class="product-desc">
+                                <strong>商品說明：</strong><br>
+                                ${desc}
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += productHtml;
+                }
+            })
+            .catch(error => {
+                document.getElementById('product-container').innerHTML = '<h3 style="color:#e74c3c; text-align:center;">資料庫同步中，若未顯示商品，請直接加 LINE 詢問最新庫存。</h3>';
+            });
+    </script>
+</body>
+</html>
